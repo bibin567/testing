@@ -19,7 +19,10 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Transfer code to EC2
-        run: scp -r ./job ec2-user@3.83.149.214:/home/ec2-user
+        run: |
+          echo "$KNOWN_HOSTS" > known_hosts
+          scp -o UserKnownHostsFile=known_hosts -r ./job ec2-user@3.83.149.214:/home/ec2-user
+
 
       - name: SSH into EC2 and deploy
         run: |
